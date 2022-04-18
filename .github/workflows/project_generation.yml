@@ -21,11 +21,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install wheel
           make install
       - name: Generate example project and run lint and tests
         run: |
-          crackme_template --repo-name test-repo --github-username nymann --template .
-          cd test-repo
+          cookiecutter --no-input -f ./
+          cd repo_name
           make lint
           make test
