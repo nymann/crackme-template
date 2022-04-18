@@ -25,6 +25,6 @@ jobs:
       - name: Generate example project and run lint and tests
         run: |
           cookiecutter --no-input -f ./
-          cd repo_name
+          cd repo-name
           make lint
           make test
