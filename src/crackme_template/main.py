@@ -52,6 +52,7 @@ def generate(
     git_registry: str = "https://github.com/",
     author_name: Optional[str] = typer.Option(None),
     author_email: Optional[str] = typer.Option(None),
+    template: str = typer.Option("https://github.com/nymann/crackme-template.git"),
 ) -> None:
     config = Config(
         repo_name=repo_name,
@@ -61,7 +62,7 @@ def generate(
         author_email=author_email,
     )
     cookiecutter(
-        template="https://github.com/nymann/crackme-template.git",
+        template=template,
         extra_context=config.dict(),
         no_input=True,
     )

@@ -25,7 +25,7 @@ jobs:
           make install
       - name: Generate example project and run lint and tests
         run: |
-          crackme_template --repo-name test-repo --github-username nymann
+          crackme_template --repo-name test-repo --github-username nymann --template .
           cd test-repo
           make lint
           make test
