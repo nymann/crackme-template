@@ -1,4 +1,3 @@
-TARGET?=local
 COMPONENT?={{cookiecutter.project_slug}}
 VERSION:={{cookiecutter.src_dir}}/${COMPONENT}/version.py
 

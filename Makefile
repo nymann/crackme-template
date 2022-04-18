@@ -1,4 +1,3 @@
-TARGET?=local
 COMPONENT?=crackme_template
 VERSION:=src/${COMPONENT}/version.py
 

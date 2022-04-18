@@ -10,16 +10,30 @@ app = typer.Typer()
 class Config:
     def __init__(
         self,
-        author_name: Optional[str],
-        author_email: Optional[str],
+        repo_name: str,
+        git_registry_account: str,
+        git_registry: str,
+        author_name: Optional[str] = None,
+        author_email: Optional[str] = None,
     ) -> None:
+        self.git_registry = git_registry
+        self.repo_name = repo_name
+        self.project_slug = repo_name.replace("-", "_")
+        self.project_name = " ".join([word.capitalize() for word in repo_name.split("-")])
+
         self.author_email = author_email or self._git("user.email")
         self.author_name = author_name or self._git("user.name")
+        self.git_registry_account = git_registry_account
 
     def dict(self) -> dict[str, str]:
         return {
+            "repo_name": self.repo_name,
+            "project_name": self.project_name,
+            "project_slug": self.project_slug,
             "author_name": self.author_name,
             "author_email": self.author_email,
+            "git_registry": self.git_registry,
+            "git_registry_account": self.git_registry_account,
         }
 
     def _git(self, command: str) -> str:
@@ -33,10 +47,19 @@ class Config:
 
 @app.command()
 def generate(
+    repo_name: str = typer.Option(...),
+    github_username: str = typer.Option(...),
+    git_registry: str = "https://github.com/",
     author_name: Optional[str] = typer.Option(None),
     author_email: Optional[str] = typer.Option(None),
 ) -> None:
-    config = Config(author_name=author_name, author_email=author_email)
+    config = Config(
+        repo_name=repo_name,
+        git_registry=git_registry,
+        git_registry_account=github_username,
+        author_name=author_name,
+        author_email=author_email,
+    )
     cookiecutter(
         template="https://github.com/nymann/crackme-template.git",
         extra_context=config.dict(),
