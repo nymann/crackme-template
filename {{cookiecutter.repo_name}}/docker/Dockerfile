@@ -11,8 +11,8 @@ COPY . .
 RUN make install
 
 FROM base-image AS production-image
-RUN chmod 751 bin/{{cookiecutter.binary}}
 COPY bin/{{cookiecutter.binary}} /usr/local/bin/{{cookiecutter.binary}}
+RUN chmod 751 bin/{{cookiecutter.binary}}
 WORKDIR /home/crackme/
 # RUN python3 -m site # if this ever breaks to get dist-packages folder.
 COPY --from=compile-image /usr/local/lib/python3.9/dist-packages/ /usr/local/lib/python3.9/dist-packages/
