@@ -1,0 +1,10 @@
+{
+  "author_email": "kristian@nymann.dev",
+  "author_name": "Kristian Nymann Jakobsen",
+  "git_url": "https://github.com/nymann/repo-name",
+  "project_slug": "snake_case_repo_name",
+  "project_name": "Repo Name",
+  "docker_registry": "default",
+  "docker_repo": "nymann/repo-name",
+  "src_dir": "src"
+}
