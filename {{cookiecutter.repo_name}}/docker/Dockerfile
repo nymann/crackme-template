@@ -1,5 +1,5 @@
 FROM debian:bookworm AS base-image
-RUN apt-get update && useradd --system non_privileged_user
+RUN apt-get update && useradd --system crackme
 RUN apt-get install --assume-yes --no-install-recommends python3
 
 FROM base-image AS compile-image
@@ -11,9 +11,11 @@ COPY . .
 RUN make install
 
 FROM base-image AS production-image
+RUN chmod 751 bin/{{cookiecutter.binary}}
+COPY bin/{{cookiecutter.binary}} /usr/local/bin/{{cookiecutter.binary}}
 # RUN python3 -m site # if this ever breaks to get dist-packages folder.
 COPY --from=compile-image /usr/local/lib/python3.9/dist-packages/ /usr/local/lib/python3.9/dist-packages/
 COPY --from=compile-image /usr/local/bin/{{cookiecutter.project_slug}} /usr/local/bin/
 
-USER non_privileged_user
-CMD {{cookiecutter.project_slug}} --help
+USER crackme
+CMD {{cookiecutter.binary}}

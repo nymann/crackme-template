@@ -6,5 +6,6 @@
   "repo_name": "repo-name",
   "project_slug": "repo_name",
   "project_name": "Repo Name",
-  "src_dir": "src"
+  "src_dir": "src",
+  "binary": ""
 }
