@@ -67,7 +67,7 @@ def setup_repo(github: Github, repo_name: str, metadata: Metadata) -> None:
 
 @app.command()
 def generate(
-    github_access_token: str = typer.Option(...),
+    github_access_token: str = typer.Option(..., envvar="GITHUB_ACCESS_TOKEN"),
     crackme_id: str = typer.Option(...),
     template: str = typer.Option("https://github.com/nymann/crackme-template.git"),
 ) -> None:

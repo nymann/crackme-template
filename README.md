@@ -10,6 +10,8 @@ crackme_template --crackme-id 5ec1a37533c5d449d91ae535 --github-access-token YOU
 
 Example of initialised repo: <https://github.com/nymann/crackme-baby-ransom/>
 
+Note if `--github-access-token` is omitted the program will try to read it from the `GITHUB_ACCESS_TOKEN` environment variable.
+
 ## Development
 
 For help getting started developing check [DEVELOPMENT.md](DEVELOPMENT.md)
