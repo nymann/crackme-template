@@ -1,6 +1,8 @@
 import json
+import os
 from pathlib import Path
 import shutil
+import subprocess
 
 from cookiecutter.main import cookiecutter
 from crackmes_dl.api import CrackmesApi
@@ -26,15 +28,6 @@ class Config:
         repo_name = f"crackme-{repo_name.lower()}"
 
         self.repo_name = repo_name
-        try:
-            user.create_repo(
-                name=repo_name,
-                description=f"Solution for {metadata.author}'s {metadata.name}",
-                homepage=metadata.crackme_url,
-            )
-        except Exception:
-            # Repo already exists
-            pass
         self.project_slug = repo_name.replace("-", "_")
         self.project_name = " ".join([word.capitalize() for word in repo_name.split("-")])
 
@@ -53,6 +46,23 @@ class Config:
             "git_registry_account": self.git_registry_account,
             "binary": self.binary_filename,
         }
+
+
+def setup_repo(github: Github, repo_name: str, metadata: Metadata) -> None:
+    user = github.get_user()
+    user.create_repo(
+        name=repo_name,
+        description=f"Solution for {metadata.author}'s {metadata.name}",
+        homepage=metadata.crackme_url,
+    )
+    repo = user.get_repo(name=repo_name)
+    repo.create_issue(title="Determine license", body="Pick a license", assignee=user.login)
+    os.chdir(repo_name)
+    subprocess.run(["git", "init"])
+    subprocess.run(["git", "add", "."])
+    subprocess.run(["git", "commit", "-m", ":tada: Init https://github.com/nymann/crackme-template"])
+    subprocess.run(["git", "remote", "add", "origin", f"git@github.com:{user.login}/{repo_name}.git"])
+    subprocess.run(["git", "push", "-u", "origin", "master"])
 
 
 @app.command()
@@ -74,7 +84,8 @@ def generate(
         extra_context=config.dict(),
         no_input=True,
     )
-    shutil.move(src=crackme_id, dst=f"{config.repo_name}/bin")
+    shutil.move(src=crackme_id, dst=f"{config.repo_name}/crackme_bin")
+    setup_repo(github=github, repo_name=config.repo_name, metadata=metadata)
 
 
 if __name__ == "__main__":
