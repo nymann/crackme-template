@@ -63,6 +63,7 @@ def generate(
     cookiecutter(
         template="https://github.com/nymann/crackme-template.git",
         extra_context=config.dict(),
+        no_input=True,
     )
 
 
