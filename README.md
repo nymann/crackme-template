@@ -5,6 +5,7 @@ Provided a github access token and a crackme-id (`https://crackmes.one/crackme/{
 ## Usage
 
 ```sh
+pip install crackme-template
 crackme_template --crackme-id 5ec1a37533c5d449d91ae535 --github-access-token YOUR_TOKEN
 ```
 
