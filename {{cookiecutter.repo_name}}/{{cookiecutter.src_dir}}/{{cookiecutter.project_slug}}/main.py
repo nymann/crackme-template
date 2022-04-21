@@ -4,8 +4,8 @@ app = typer.Typer()
 
 
 @app.command()
-def welcome(name: str) -> None:
-    typer.echo(f"Welcome {name}!")
+def keygen() -> None:
+    typer.echo("Implement your keygen for {{cookiecutter.project_slug}} here.")
 
 
 if __name__ == "__main__":
