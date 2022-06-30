@@ -77,7 +77,7 @@ def generate(
     crackmes_api.download_single(output_dir=Path("."), crackme_id=crackme_id)
     with open(f"{crackme_id}/metadata.json") as json_file:
         metadata = Metadata(**json.load(json_file))
-    binary_filename: Path = [file for file in Path(crackme_id).glob("*") if not file.name == "metadata.json"][0]
+    binary_filename: Path = [path for path in Path(crackme_id).glob("*") if path.name != "metadata.json"][0]
     config = Config(github=github, metadata=metadata, binary_filename=binary_filename.name)
     cookiecutter(
         template=template,
