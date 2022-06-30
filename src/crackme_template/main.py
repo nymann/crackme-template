@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import string
 import subprocess
 
 from cookiecutter.main import cookiecutter
@@ -11,6 +12,8 @@ from github import Github
 import typer
 
 app = typer.Typer()
+
+SAFE_CHARS = string.ascii_lowercase
 
 
 class Config:
@@ -24,8 +27,11 @@ class Config:
         self.binary_filename = binary_filename
         user = self._github.get_user()
         self.git_registry = "https://github.com/"
-        repo_name = metadata.name.replace(" ", "-")
-        repo_name = f"crackme-{repo_name.lower()}"
+        repo_name = metadata.name.lower()
+        for ch in repo_name:
+            if ch not in SAFE_CHARS:
+                repo_name = repo_name.replace(ch, "-")
+        repo_name = f"crackme-{repo_name}"
 
         self.repo_name = repo_name
         self.project_slug = repo_name.replace("-", "_")
