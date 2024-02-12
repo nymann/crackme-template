@@ -1,5 +1,5 @@
 install: ${VERSION}
-	@pip install .
+	@pip install --break-system-packages .
 
 install-all: ${VERSION}
 	@pip install -e '.[all]'
