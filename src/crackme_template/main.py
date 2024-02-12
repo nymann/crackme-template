@@ -20,19 +20,14 @@ class Config:
     def __init__(
         self,
         github: Github,
-        metadata: Metadata,
         binary_filename: str,
+        crackme_id: str,
     ) -> None:
         self._github = github
         self.binary_filename = binary_filename
         user = self._github.get_user()
         self.git_registry = "https://github.com/"
-        repo_name = metadata.name.lower()
-        for ch in repo_name:
-            if ch not in SAFE_CHARS:
-                repo_name = repo_name.replace(ch, "-")
-        repo_name = f"crackme-{repo_name}"
-
+        repo_name = f"crackme-{crackme_id}"
         self.repo_name = repo_name
         self.project_slug = repo_name.replace("-", "_")
         self.project_name = " ".join([word.capitalize() for word in repo_name.split("-")])
@@ -84,7 +79,7 @@ def generate(
     with open(f"{crackme_id}/metadata.json") as json_file:
         metadata = Metadata(**json.load(json_file))
     binary_filename: Path = [path for path in Path(crackme_id).glob("*") if path.name != "metadata.json"][0]
-    config = Config(github=github, metadata=metadata, binary_filename=binary_filename.name)
+    config = Config(github=github, binary_filename=binary_filename.name, crackme_id=crackme_id)
     cookiecutter(
         template=template,
         extra_context=config.dict(),
